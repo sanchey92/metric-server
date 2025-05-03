@@ -1,0 +1,5 @@
+http-server:
+  host: ${HTTP_HOST}
+  port: ${HTTP_PORT}
+  timeout: 10s
+  idle_timeout: 10s

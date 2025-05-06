@@ -33,7 +33,7 @@ func GzipMiddleware(next http.Handler) http.Handler {
 					fmt.Println("failed to close gzip reader: %w", err)
 				}
 			}()
-			r.Body = gr
+			r.Body = io.NopCloser(gr)
 		}
 
 		if !strings.Contains(r.Header.Get("Accept-Encoding"), "gzip") {

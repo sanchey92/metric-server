@@ -10,22 +10,21 @@ import (
 	"github.com/sanchey92/metric-server/internal/models"
 )
 
-// BufferService defines the interface for services that can accept and process
-// batches of metrics. This abstraction allows the handler to work with different
-// metric processing implementations.
-type BufferService interface {
-	Push([]models.Metric)
+// MemStorage defines an interface for storing metrics in memory.
+// It provides methods for setting and retrieving metric values.
+type MemStorage interface {
+	Set(name string, value float64)
 }
 
 // Handler provides HTTP handlers for metric processing operations.
 type Handler struct {
-	service BufferService
+	storage MemStorage
 }
 
 // New creates and returns a new Handler instance with the provided BufferService.
-func New(service BufferService) *Handler {
+func New(storage MemStorage) *Handler {
 	return &Handler{
-		service: service,
+		storage: storage,
 	}
 }
 
@@ -40,6 +39,9 @@ func (h *Handler) HandleMetrics(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.service.Push(metrics)
+	for _, value := range metrics {
+		h.storage.Set(value.Name, value.Value)
+	}
+
 	w.WriteHeader(http.StatusOK)
 }

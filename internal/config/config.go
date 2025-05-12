@@ -19,6 +19,7 @@ import (
 // It contains all configurable parameters grouped by logical components.
 type Config struct {
 	HTTPServer HTTPServer `yaml:"http-server"`
+	PgDSN      string     `yaml:"pg-dsn"`
 }
 
 // HTTPServer contains configuration parameters for the HTTP server.

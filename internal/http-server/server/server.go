@@ -22,8 +22,7 @@ type Server struct {
 
 // New creates and configures a new Server instance with all required dependencies.
 // It initializes the storage, handlers, and router based on the provided configuration.
-func New(cfg *config.Config) (*Server, error) {
-	memStorage := storage.NewMemStorage()
+func New(cfg *config.Config, memStorage *storage.MemStorage) (*Server, error) {
 	h := handler.New(memStorage)
 	r := router.New(h)
 

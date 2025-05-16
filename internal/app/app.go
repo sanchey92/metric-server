@@ -39,9 +39,7 @@ func New(ctx context.Context, cfg *config.Config) (*App, error) {
 		return nil, err
 	}
 
-	interval := 1 * time.Minute
-
-	f := flusher.New(interval, memStorage, db)
+	f := flusher.New(cfg.FlushInterval, memStorage, db)
 
 	return &App{
 		server:  s,

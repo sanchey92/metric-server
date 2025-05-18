@@ -57,3 +57,13 @@ local-migration-up:
 local-migration-down:
 	@$(LOCAL_BIN)/goose -dir ${MIGRATION_DIR} postgres ${PG_DSN} down -v
 
+.PHONY: mock
+mock:
+	@mkdir -p internal/http-server/handler/mocks
+	@$(LOCAL_BIN)/mockgen -source=internal/http-server/handler/handler.go -destination=internal/http-server/handler/mocks/storage_mock.go -package=mocks
+	@echo "Mocks generated in internal/http-server/handler/mocks"
+
+.PHONY: test
+test: mock
+	@go test -v ./... -cover
+

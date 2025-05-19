@@ -60,8 +60,10 @@ local-migration-down:
 .PHONY: mock
 mock:
 	@mkdir -p internal/http-server/handler/mocks
+	@mkdir -p internal/flusher/mocks
 	@$(LOCAL_BIN)/mockgen -source=internal/http-server/handler/handler.go -destination=internal/http-server/handler/mocks/storage_mock.go -package=mocks
-	@echo "Mocks generated in internal/http-server/handler/mocks"
+	@$(LOCAL_BIN)/mockgen -source=internal/flusher/flusher.go  -destination=internal/flusher/mocks/storage_mock.go -package=mocks
+	@echo "Mocks generated"
 
 .PHONY: test
 test: mock
